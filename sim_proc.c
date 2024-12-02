@@ -90,8 +90,8 @@ void Decode(){
 
 void Fetch(FILE *FP, proc_params params){
 if (fscanf(FP, "%lx %ld %ld %ld %ld", &read_instruction[instruction_tracker].pc, &read_instruction[instruction_tracker].INSTR, &read_instruction[instruction_tracker].dest, &read_instruction[instruction_tracker].src1, &read_instruction[instruction_tracker].src2) != EOF){
-    instruction_tracker++;
     read_instruction[instruction_tracker].FETCH = PL_cycle;
+    instruction_tracker++;
 }
 
 }
@@ -121,7 +121,6 @@ void Retire() {
 }
  //recall pipeline stages in reverse order 
 int Advance_Cycle() {
-
  PL_cycle++;
  Retire();
  Writeback();
@@ -180,7 +179,7 @@ int main (int argc, char* argv[]){
     Decode();
     Fetch(FP, params);
 
-   } while (Advance_Cycle());
+   } while (instruction_stop < instruction_tracker);
 
      printf("=== Simulation Results =======\n");
      printf(" Dynamic Instruction Count = %ld\n", instruction_tracker);
