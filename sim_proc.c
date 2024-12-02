@@ -135,8 +135,7 @@ int Advance_Cycle() {
  return instruction_stop < instruction_tracker;
 }
 
-int main (int argc, char* argv[])
-{
+int main (int argc, char* argv[]){
     FILE *FP;               // File handler
     char *trace_file;       // Variable that holds trace file name;
     proc_params params;       // look at sim_bp.h header file for the the definition of struct proc_params
@@ -165,8 +164,8 @@ int main (int argc, char* argv[])
         printf("Error: Unable to open file %s\n", trace_file);
         exit(EXIT_FAILURE);
     }
-      printf("=== Simulator Command ======\n# ./sim %lu %lu %lu %s\n", params.rob_size, params.iq_size, params.width, argv[4]);
-      printf("=== Processor Configuration ===\n# ROB_SIZE = %lu\n# IQ_SIZE = %lu\n# WIDTH = %lu\n", params.rob_size, params.iq_size, params.width);
+    //   printf("=== Simulator Command ======\n# ./sim %lu %lu %lu %s\n", params.rob_size, params.iq_size, params.width, argv[4]);
+    //   printf("=== Processor Configuration ===\n# ROB_SIZE = %lu\n# IQ_SIZE = %lu\n# WIDTH = %lu\n", params.rob_size, params.iq_size, params.width);
   
    
     for (int j = 0; j < instruction_tracker; j++) {
