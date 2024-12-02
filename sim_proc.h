@@ -21,4 +21,6 @@ void Issue();
 void Decode();
 void Fetch(FILE *FP, proc_params params);
 
+
 #endif
+
