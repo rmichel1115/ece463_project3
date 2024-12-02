@@ -183,7 +183,7 @@ int main (int argc, char* argv[])
     Decode();
     Fetch(FP, params);
 
-   } while (Advance_Cycle());
+   } while (instruction_stop < instruction_tracker);
 
     printf("=== Simulation Results =======\n");
     printf(" Dynamic Instruction Count = %d\n", instruction_tracker);
