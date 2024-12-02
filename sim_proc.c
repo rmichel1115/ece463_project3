@@ -89,7 +89,7 @@ void Decode(){
 }
 
 void Fetch(FILE *FP, proc_params params){
-if (fscanf(FP, "%lx %d %d %d %d", &read_instruction[instruction_tracker].pc, &read_instruction[instruction_tracker].INSTR, &read_instruction[instruction_tracker].dest, &read_instruction[instruction_tracker].src1, &read_instruction[instruction_tracker].src2) != EOF){
+if (fscanf(FP, "%lx %ld %ld %ld %ld", &read_instruction[instruction_tracker].pc, &read_instruction[instruction_tracker].INSTR, &read_instruction[instruction_tracker].dest, &read_instruction[instruction_tracker].src1, &read_instruction[instruction_tracker].src2) != EOF){
     instruction_tracker++;
     read_instruction[instruction_tracker].FETCH = PL_cycle;
 }
@@ -170,7 +170,7 @@ int main (int argc, char* argv[])
   
    
     for (int j = 0; j < instruction_tracker; j++) {
-        printf("%d fu{%d} src{%d,%d} dst{%d} FE{%d,1} DE{%d,1} RN{%d,1} RR{%d,1} DI{%d,1} IS{%d,1} EX{%d,1} WB{%d,1} RT{%d,1}\n", j, read_instruction[j].INSTR, read_instruction[j].src1, read_instruction[j].src2, read_instruction[j].dest, read_instruction[j].FETCH, read_instruction[j].DECODE, read_instruction[j].RENAME, read_instruction[j].REGREAD, read_instruction[j].DISPATCH, read_instruction[j].ISSUE, read_instruction[j].EXECUTE, read_instruction[j].WRITEBACK, read_instruction[j].RETIRE);
+        printf("%ld fu{%ld} src{%ld,%ld} dst{%ld} FE{%ld,1} DE{%ld,1} RN{%ld,1} RR{%ld,1} DI{%ld,1} IS{%ld,1} EX{%ld,1} WB{%ld,1} RT{%ld,1}\n", j, read_instruction[j].INSTR, read_instruction[j].src1, read_instruction[j].src2, read_instruction[j].dest, read_instruction[j].FETCH, read_instruction[j].DECODE, read_instruction[j].RENAME, read_instruction[j].REGREAD, read_instruction[j].DISPATCH, read_instruction[j].ISSUE, read_instruction[j].EXECUTE, read_instruction[j].WRITEBACK, read_instruction[j].RETIRE);
     }
    do {
     Retire();
