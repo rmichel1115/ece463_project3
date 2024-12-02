@@ -168,9 +168,7 @@ int main (int argc, char* argv[]){
     //   printf("=== Processor Configuration ===\n# ROB_SIZE = %lu\n# IQ_SIZE = %lu\n# WIDTH = %lu\n", params.rob_size, params.iq_size, params.width);
   
    
-    for (int j = 0; j < instruction_tracker; j++) {
-        printf("%ld fu{%ld} src{%ld,%ld} dst{%ld} FE{%ld,1} DE{%ld,1} RN{%ld,1} RR{%ld,1} DI{%ld,1} IS{%ld,1} EX{%ld,1} WB{%ld,1} RT{%ld,1}\n", j, read_instruction[j].INSTR, read_instruction[j].src1, read_instruction[j].src2, read_instruction[j].dest, read_instruction[j].FETCH, read_instruction[j].DECODE, read_instruction[j].RENAME, read_instruction[j].REGREAD, read_instruction[j].DISPATCH, read_instruction[j].ISSUE, read_instruction[j].EXECUTE, read_instruction[j].WRITEBACK, read_instruction[j].RETIRE);
-    }
+    
    do {
     Retire();
     Writeback();
@@ -184,12 +182,14 @@ int main (int argc, char* argv[]){
 
    } while (instruction_stop < instruction_tracker);
 
-    printf("=== Simulation Results =======\n");
-    printf(" Dynamic Instruction Count = %ld\n", instruction_tracker);
-    printf(" Cycles = %ld\n", PL_cycle);
-    printf(" Instructions Per Cycle (IPC) = %.2lf\n", (double)instruction_tracker / PL_cycle);   
+    // printf("=== Simulation Results =======\n");
+    // printf(" Dynamic Instruction Count = %ld\n", instruction_tracker);
+    // printf(" Cycles = %ld\n", PL_cycle);
+    // printf(" Instructions Per Cycle (IPC) = %.2lf\n", (double)instruction_tracker / PL_cycle);   
   
-    
+    for (int j = 0; j < instruction_tracker; j++) {
+        printf("%ld fu{%ld} src{%ld,%ld} dst{%ld} FE{%ld,1} DE{%ld,1} RN{%ld,1} RR{%ld,1} DI{%ld,1} IS{%ld,1} EX{%ld,1} WB{%ld,1} RT{%ld,1}\n", j, read_instruction[j].INSTR, read_instruction[j].src1, read_instruction[j].src2, read_instruction[j].dest, read_instruction[j].FETCH, read_instruction[j].DECODE, read_instruction[j].RENAME, read_instruction[j].REGREAD, read_instruction[j].DISPATCH, read_instruction[j].ISSUE, read_instruction[j].EXECUTE, read_instruction[j].WRITEBACK, read_instruction[j].RETIRE);
+    }
     //while(fscanf(FP, "%lx %d %d %d %d", &pc, &op_type, &dest, &src1, &src2) != EOF)
         //printf("%lx %d %d %d %d\n", pc, op_type, dest, src1, src2); //Print to check if inputs have been read correctly
     fclose(FP);
