@@ -186,9 +186,9 @@ int main (int argc, char* argv[])
    } while (instruction_stop < instruction_tracker);
 
     printf("=== Simulation Results =======\n");
-    printf(" Dynamic Instruction Count = %d\n", instruction_tracker);
-    printf(" Cycles = %d\n", PL_cycle);
-    printf(" Instructions Per Cycle (IPC) = %.2f\n", instruction_tracker / PL_cycle);   
+    printf(" Dynamic Instruction Count = %ld\n", instruction_tracker);
+    printf(" Cycles = %ld\n", PL_cycle);
+    printf(" Instructions Per Cycle (IPC) = %.2lf\n", (double)instruction_tracker / PL_cycle);   
   
     
     //while(fscanf(FP, "%lx %d %d %d %d", &pc, &op_type, &dest, &src1, &src2) != EOF)
