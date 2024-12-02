@@ -120,7 +120,7 @@ void Retire() {
     }
 }
  //recall pipeline stages in reverse order 
-int Advance_Cycle() {
+int Advance_Cycle(FILE *FP, proc_params params) {
  PL_cycle++;
  Retire();
  Writeback();
@@ -179,7 +179,7 @@ int main (int argc, char* argv[]){
     Decode();
     Fetch(FP, params);
 
-   } while (instruction_stop < instruction_tracker);
+   } while (Advance_Cycle(FP, params));
 
      printf("=== Simulation Results =======\n");
      printf(" Dynamic Instruction Count = %ld\n", instruction_tracker);
