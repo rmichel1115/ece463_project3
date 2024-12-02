@@ -34,89 +34,69 @@ typedef struct {
     uint64_t pc;
 
 } ProcessorInformation;
-
+ //this sets the maximum number of steps the pipeline can hit
 # define MAXIMUM 1000000
-// double instructions_per_cycle = 0;
-// uint64_t track_instructions = 0;
-// uint64_t track_cycle = 0;
-// long int finish_file = 0;
-// PL processor_PL;
 
+//variables used throuhgout code 
 long int instruction_tracker = 0;
 long int instruction_stop = 0;
 long int PL_cycle = 0;
 ProcessorInformation read_instruction[MAXIMUM];
-//function below begins the pipeline 
 
-// void PL_Start(proc_params params){
-//     processor_PL.width = params.width;
-//     processor_PL.iq_size = params.iq_size;
-//     processor_PL.rob_size = params.rob_size; 
-//     processor_PL.PL_cycle = 0;
-//     processor_PL.CO_read = malloc(params.rob_size * sizeof(PL_instructions));
-//     processor_PL.EX_read = malloc(params.width * sizeof(PL_instructions));
-//     processor_PL.IS_read = malloc(params.rob_size * sizeof(PL_instructions));
-//     processor_PL.FE_read = malloc(params.width * sizeof(PL_instructions));
-// }
-
-//defining functions for pipeline simulation (reverse order)
-
-// void Commit(){
-//     printf("Instructions Committed\n");
-// }
-
-void Writeback() {
+//functions that are within the pipeline
+void Writeback() { //Writeback function
     if (instruction_tracker > 6)
-    read_instruction[instruction_stop].WRITEBACK = PL_cycle;
+    read_instruction[instruction_stop].WRITEBACK = PL_cycle; //sets the instruction to the pipeline cycle 
     }
 
-void Execute() {
+void Execute() { //Execute function 
     if (instruction_tracker > 5)
-    read_instruction[instruction_stop].EXECUTE = PL_cycle;
+    read_instruction[instruction_stop].EXECUTE = PL_cycle; //sets the instruction to the pipeline cycle 
     }
 
-
+//Issue function 
 void Issue() {
     if (instruction_tracker > 4)
-    read_instruction[instruction_stop].ISSUE = PL_cycle;
+    read_instruction[instruction_stop].ISSUE = PL_cycle; //sets the instruction to the pipeline cycle 
     }
 
-void Decode(){
+void Decode(){ //Decode function 
     if (instruction_tracker > 0 )
-    read_instruction[instruction_stop].DECODE = PL_cycle;
+    read_instruction[instruction_stop].DECODE = PL_cycle; //sets the instruction to the pipeline cycle 
 
 
 }
 
-void Fetch(FILE *FP, proc_params params){
+void Fetch(FILE *FP, proc_params params){ //Fetch function 
 if (fscanf(FP, "%lx %ld %ld %ld %ld", &read_instruction[instruction_tracker].pc, &read_instruction[instruction_tracker].INSTR, &read_instruction[instruction_tracker].dest, &read_instruction[instruction_tracker].src1, &read_instruction[instruction_tracker].src2) != EOF){
     read_instruction[instruction_tracker].FETCH = PL_cycle;
-    instruction_tracker++;
+    instruction_tracker++; //counter that is used to track the number of instructions passed
 }
 
 }
 
 
-void Dispatch() {
+void Dispatch() { //Dispatch function
     if (instruction_tracker > 3)
-    read_instruction[instruction_stop].DISPATCH = PL_cycle;
-    }
+    read_instruction[instruction_stop].DISPATCH = PL_cycle; //sets the instruction to the pipeline cycle 
+}
 
+//RegRead function 
 void RegRead() {
     if (instruction_tracker > 2)
-    read_instruction[instruction_stop].REGREAD = PL_cycle;
+    read_instruction[instruction_stop].REGREAD = PL_cycle; //sets the instruction to the pipeline cycle 
     }
 
-
+//Rename function 
 void Rename() {
     if (instruction_tracker > 1)
-    read_instruction[instruction_stop].RENAME = PL_cycle;
-    }
+    read_instruction[instruction_stop].RENAME = PL_cycle; //sets the instruction to the pipeline cycle 
+     }
 
-void Retire() {
+void Retire() { //Retire function
     if (instruction_tracker > instruction_stop) {
-        read_instruction[instruction_stop].RETIRE = PL_cycle;
-        instruction_stop++;
+        read_instruction[instruction_stop].RETIRE = PL_cycle; //sets the instruction to the pipeline cycle 
+        instruction_stop++; //counter is incremented here, makes note of the functions that have completed 
     }
 }
  //recall pipeline stages in reverse order 
@@ -167,8 +147,8 @@ int main (int argc, char* argv[]){
     //   printf("=== Processor Configuration ===\n# ROB_SIZE = %lu\n# IQ_SIZE = %lu\n# WIDTH = %lu\n", params.rob_size, params.iq_size, params.width);
   
    
-    
-   do {
+    //do loop that steps through each of the pipeline functions 
+   do {  //THIS WAS MY ATTEMPT AT THE DO-WHILE LOOP, INCORPORATES ALL DEFINED PIPELINE FUNCTIONS AND ADVANCE_CYCLE() FUNCTION 
     Retire();
     Writeback();
     Execute();
@@ -179,9 +159,11 @@ int main (int argc, char* argv[]){
     Decode();
     Fetch(FP, params);
 
-   } while (Advance_Cycle());
+   } while (Advance_Cycle(FP, params)); //this occurs throughout the Advance_Cycle funciton as well. Should be stepping through each part of the function
 
-     printf("=== Simulation Results =======\n");
+    //THIS WAS MY ATTEMPT AT PRODUCING OUTPUTS FOR THE PIPELINE SIMULATOR
+    //prints calculated results (NOTE: I KNOW IT IS INCORRECT - COULD NOT FIGURE OUT)
+     printf("=== Simulation Results =======\n"); 
      printf(" Dynamic Instruction Count = %ld\n", instruction_tracker);
      printf(" Cycles = %ld\n", PL_cycle);
      printf(" Instructions Per Cycle (IPC) = %.2lf\n", (double)instruction_tracker / PL_cycle);   
@@ -194,4 +176,4 @@ int main (int argc, char* argv[]){
     fclose(FP);
     return 0;
 }
-
+ 
